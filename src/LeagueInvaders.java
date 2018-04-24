@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 
 public class LeagueInvaders {
 	JFrame frame = new JFrame();
-	final int frameXSize = 500;
-	final int frameYSize = 800;
+	static final int frameXSize = 500;
+	static final int frameYSize = 800;
 	GamePanel GamePanel;
 
 	public static void main(String[] args) {
