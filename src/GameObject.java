@@ -14,12 +14,11 @@ public GameObject(int x, int y, int width, int height) {
 }
 
 void draw(Graphics g) {
-	g.fillRect(x, y, 100, 100);
+
 	
 }
 
 void update() {
-	x+=5;
-	y+=5;
+	
 }
 }

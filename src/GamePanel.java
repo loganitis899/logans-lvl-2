@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,10 +20,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font enterFont;
 	Font startFont;
+	Font diedFont;
+	Font scoreFont;
+	Font tryAgainFont;
+	public String whichArrow;
+	Rocketship rocketship = new Rocketship(250,700,50,50);
 	public GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		enterFont = new Font("Arial", Font.PLAIN, 24);
 		startFont = new Font("Arial", Font.PLAIN, 24);
+		
+		diedFont = new Font("Arial", Font.PLAIN, 70);
+		scoreFont = new Font("Arial", Font.PLAIN, 24);
+		tryAgainFont = new Font("Arial", Font.PLAIN, 24);
 	
 	}
  void updateMenuState(){
@@ -58,12 +68,26 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
  void drawGameState(Graphics g) {
 	 g.setColor(Color.BLACK);
 	 g.fillRect(0,0,LeagueInvaders.frameXSize, LeagueInvaders.frameYSize);
+	 rocketship.draw(g);
+	 
 	
  }
  
  void drawEndState(Graphics g) {
 	g.setColor(Color.RED);
 	g.fillRect(0, 0, LeagueInvaders.frameXSize, LeagueInvaders.frameYSize);
+	
+	g.setFont(diedFont);
+	g.setColor(Color.BLACK);
+	g.drawString("You Died", 100, 200);
+	
+	g.setFont(scoreFont);
+	g.setColor(Color.BLACK);
+	g.drawString("You scored ENTER POINTS points", 75, 300);
+	
+	g.setFont(tryAgainFont);
+	g.setColor(Color.BLACK);
+	g.drawString("press Enter to try again", 120, 500);
  }
  
 	public void actionPerformed(ActionEvent e) {
@@ -72,6 +96,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateMenuState();
 		} else if(currentState==GAME_STATE) {
 			updateGameState();
+			rocketship.update();
 		} else if(currentState==END_STATE) {
 			updateEndState();
 		}
@@ -92,6 +117,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			drawMenuState(g);
 		} else if(currentState==GAME_STATE) {
 			drawGameState(g);
+			
 		} else if(currentState==END_STATE) {
 			drawEndState(g);
 		}
@@ -115,7 +141,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 	
 
+		if(e.getKeyCode()==KeyEvent.VK_SPACE && currentState==MENU_STATE) {
+			JOptionPane.showMessageDialog(null, "press space to shoot enemies. try not to get hit.");
+		}
+		
+		
+		if(e.getKeyCode()==KeyEvent.VK_LEFT) {
+			rocketship.updateLeft();
+			
+		} else if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
+			rocketship.updateRight();
+		}
 	}
+	
+ 
 
 	@Override
 	public void keyReleased(KeyEvent e) {
