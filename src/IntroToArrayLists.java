@@ -14,9 +14,9 @@ public class IntroToArrayLists {
 		array.add("God");
 
 		// 3. Print all the Strings using a standard for-loop
-		for (String s : array) {
+		
 			// System.out.println(s);
-		}
+		
 		// 4. Print all the Strings using a for-each loop
 
 		// 5. Print only the even numbered elements in the list.
