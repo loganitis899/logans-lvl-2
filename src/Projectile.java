@@ -20,6 +20,7 @@ public class Projectile extends GameObject {
 		y -= speed;
 		if (y <= 0) {
 			isAlive = false;
+			
 		}
 
 	}

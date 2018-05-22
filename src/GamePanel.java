@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
-	int currentState = 0;
+	public int currentState = 0;
 	Font titleFont;
 	Font enterFont;
 	Font startFont;
@@ -45,7 +45,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		objectManager.update();
+
 		objectManager.manageEnemies();
+		if(rocketship.isAlive==false && currentState==1) {
+			currentState+=1;
+		}
+		
+		
 
 	}
 
@@ -88,7 +94,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 		g.setFont(scoreFont);
 		g.setColor(Color.BLACK);
-		g.drawString("You scored ENTER POINTS points", 75, 300);
+		g.drawString("You killed "+String.valueOf(objectManager.getScore())+" aliens!", 135, 300);
 
 		g.setFont(tryAgainFont);
 		g.setColor(Color.BLACK);
@@ -152,6 +158,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		} else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			rocketship.updateRight();
 		}
+		//if(e.getKeyCode()==KeyEvent.VK_ENTER || currentState==END_STATE) {
+			//rocketship.equals( rocketship = new Rocketship(250, 700, 50, 50));
+	//	}
 
 	}
 
@@ -163,4 +172,5 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 
 	}
+	
 }

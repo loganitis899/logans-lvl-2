@@ -15,6 +15,7 @@ public class Rocketship extends GameObject {
 		g.fillRect(x, y, width, height);
 
 	}
+	
 
 	void updateLeft() {
 		super.update();
