@@ -31,6 +31,8 @@ public class ObjectManager {
 		}
 		checkCollision();
 		purgeObjects();
+		
+		
 	}
 
 	void draw(Graphics g) {
@@ -74,6 +76,23 @@ public class ObjectManager {
 			
 		}
 		}}
+	
+	void killAll() {
+		for(int a=0; a< aliens.size();a++){
+			if(aliens.get(a).isAlive==true) {
+				aliens.remove(a);
+			
+				System.out.println(" all Aliens removed");
+			}
+			for(int p=0; p< projectiles.size();p++){
+				if(projectiles.get(p).isAlive==true) {
+					projectiles.remove(p);
+					System.out.println("Shot killed");
+		}
+			}}
+		
+		
+	}
 
 	
 
@@ -91,6 +110,7 @@ public class ObjectManager {
 			if (rocketship.collisionBox.intersects(a.collisionBox)) {
 
 				rocketship.isAlive = false;
+				a.isAlive=false;
 				System.out.print("dead");
 			
 

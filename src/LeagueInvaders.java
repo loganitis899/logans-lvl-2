@@ -22,6 +22,7 @@ public class LeagueInvaders {
 		frame.setVisible(true);
 		frame.setSize(frameXSize, frameYSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		GamePanel.startGame();
 	}
 
