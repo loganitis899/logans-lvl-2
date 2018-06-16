@@ -9,7 +9,6 @@ public class atariBreakout {
 	static final int frameXSize = 800;
 	static final int frameYSize = 600;
 	GamePanel GamePanel;
-	
 
 	public static void main(String[] args) {
 		atariBreakout runMethod = new atariBreakout();
@@ -25,11 +24,12 @@ public class atariBreakout {
 		frame.setVisible(true);
 		frame.setSize(frameXSize, frameYSize);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-	    GamePanel.startGame();
-	
-		
+
+		GamePanel.startGame();
+
 	}
+
 	public atariBreakout() {
 		GamePanel = new GamePanel();
-}}
+	}
+}

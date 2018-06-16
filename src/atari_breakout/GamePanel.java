@@ -7,12 +7,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements KeyListener, ActionListener {
+	public static BufferedImage deadImg;
 	Timer timer = new Timer(1000 / 60, this);
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
@@ -26,8 +30,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font tryAgainFont;
 	Font breakoutFont;
 	int timerRun;
-Color label = Color.BLACK;
-	public GamePanel() {
+	Color label = Color.BLACK;
+    int ballX=500;
+    int ballY=500;
+    int speedX=5;
+    int speedY=5;
+	public GamePanel() { 
+		
 		titleFont = new Font("Arial", Font.PLAIN, 170);
 		enterFont = new Font("Arial", Font.BOLD, 24);
 		startFont = new Font("Arial", Font.PLAIN, 24);
@@ -35,6 +44,16 @@ Color label = Color.BLACK;
 		diedFont = new Font("Papyrus", Font.ITALIC, 70);
 		welcomeTo = new Font("Arial", Font.ITALIC, 50);
 		tryAgainFont = new Font("Typewriter", Font.BOLD, 24);
+
+		try {
+
+			deadImg = ImageIO.read(this.getClass().getResourceAsStream("dead.png"));
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
 	}
 
 	void updateMenuState() {
@@ -66,14 +85,13 @@ Color label = Color.BLACK;
 		g.drawString("breakout", 360, 230);
 
 		if (timerRun % 100 == 0) {
-			
-		label=Color.BLACK;
-		    
-		    
-		} else if(timerRun%50==0){
-			
-			label=Color.WHITE;
-			
+
+			label = Color.BLACK;
+
+		} else if (timerRun % 50 == 0) {
+
+			label = Color.WHITE;
+
 		}
 		g.setFont(enterFont);
 		g.setColor(label);
@@ -86,19 +104,37 @@ Color label = Color.BLACK;
 
 	void drawGameState(Graphics g) {
 
-	}
+		
+			g.setColor(Color.BLACK);
+			g.fillOval(ballX , ballY, 50, 50);
+		
+
+			if (ballY <= 0 || ballY >= atariBreakout.frameYSize) {
+				speedY=-speedY ;
+			}
+			if (ballX <= 0 || ballX >= atariBreakout.frameXSize) {
+				
+				speedX =-speedX;
+			}
+			
+			ballX=ballX+speedX;
+			ballY=ballY+speedY;
+
+		}
+	
 
 	void drawEndState(Graphics g) {
-		g.setColor(Color.LIGHT_GRAY);
-		g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
+		// g.setColor(Color.LIGHT_GRAY);
+		// g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
 
-		g.setFont(diedFont);
-		g.setColor(Color.BLACK);
-		g.drawString("You ran out of lives...", 100, 200);
+		/// g.setFont(diedFont);
+		// g.setColor(Color.BLACK);
+		// g.drawString("You ran out of lives...", 100, 200);
 
-		g.setFont(tryAgainFont);
-		g.setColor(Color.WHITE);
-		g.drawString("press Enter to try again", 250, 500);
+		// g.setFont(tryAgainFont);
+		//// (Color.WHITE);
+		// g.drawString("press Enter to try again", 250, 500);
+		g.drawImage(GamePanel.deadImg, 0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize, null);
 	}
 
 	public void startGame() {

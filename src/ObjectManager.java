@@ -6,8 +6,8 @@ public class ObjectManager {
 	long enemyTimer = 0;
 	int enemySpawnTime = 500;
 	int score =0;
+	Rocketship rocketship = new Rocketship(250, 700, 50, 50);
 
-	Rocketship rocketship;
 	ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	ArrayList<Alien> aliens = new ArrayList<Alien>();
 
