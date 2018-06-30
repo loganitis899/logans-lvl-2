@@ -3,6 +3,7 @@ package atari_breakout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,19 +32,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font breakoutFont;
 	int timerRun;
 	Color label = Color.BLACK;
-    int ballX=500;
-    int ballY=500;
-    int speedX=5;
-    int speedY=5;
-	public GamePanel() { 
-		
-		titleFont = new Font("Arial", Font.PLAIN, 170);
-		enterFont = new Font("Arial", Font.BOLD, 24);
-		startFont = new Font("Arial", Font.PLAIN, 24);
-		breakoutFont = new Font("Impact", Font.BOLD, 30);
-		diedFont = new Font("Papyrus", Font.ITALIC, 70);
-		welcomeTo = new Font("Arial", Font.ITALIC, 50);
-		tryAgainFont = new Font("Typewriter", Font.BOLD, 24);
+	int ballX = 500;
+	int ballY = 500;
+	int speedX = 5;
+	int speedY = 5;
+	Bouncer bouncer = new Bouncer(300, atariBreakout.frameYSize-260, 200, 10);
+
+	public GamePanel() {
+
+		titleFont = new Font("Arial", Font.PLAIN, 350);
+		//enterFont = new Font("Arial", Font.BOLD, 24);
+		//startFont = new Font("Arial", Font.PLAIN, 24);
+		breakoutFont = new Font("Impact", Font.BOLD, 150);
+		//diedFont = new Font("Papyrus", Font.ITALIC, 70);
+		welcomeTo = new Font("Arial", Font.ITALIC, 125);
+		//tryAgainFont = new Font("Typewriter", Font.BOLD, 24);
 
 		try {
 
@@ -72,17 +75,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
 
-		g.setFont(titleFont);
+	    g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("Atari", 150, 200);
+	    g.drawString("Atari", 600, 400);
 
 		g.setFont(welcomeTo);
 		g.setColor(Color.WHITE);
-		g.drawString("Welcome To...", 10, 50);
+		g.drawString("Welcome To...", 10, 100);
 
 		g.setFont(breakoutFont);
 		g.setColor(Color.LIGHT_GRAY);
-		g.drawString("breakout", 360, 230);
+		g.drawString("breakout", 750, 550);
 
 		if (timerRun % 100 == 0) {
 
@@ -93,35 +96,38 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			label = Color.WHITE;
 
 		}
-		g.setFont(enterFont);
-		g.setColor(label);
-		g.drawString("Press ENTER to start!", 240, 400);
-		g.setFont(startFont);
-		g.setColor(Color.YELLOW);
-		g.drawString("Press SPACE for instructions", 200, 500);
+	//	g.setFont(enterFont);
+		//g.setColor(label);
+		//g.drawString("Press ENTER to start!", 240, 400);
+		//g.setFont(startFont);
+		//g.setColor(Color.YELLOW);
+		//g.drawString("Press SPACE for instructions", 200, 500);
 
 	}
 
 	void drawGameState(Graphics g) {
 
-		
-			g.setColor(Color.BLACK);
-			g.fillOval(ballX , ballY, 50, 50);
-		
+		g.setColor(Color.BLACK);
+		g.fillOval(ballX, ballY, 50, 50);
 
-			if (ballY <= 0 || ballY >= atariBreakout.frameYSize) {
-				speedY=-speedY ;
-			}
-			if (ballX <= 0 || ballX >= atariBreakout.frameXSize) {
-				
-				speedX =-speedX;
-			}
-			
-			ballX=ballX+speedX;
-			ballY=ballY+speedY;
-
+		if (ballY <= 0 || ballY >= atariBreakout.frameYSize-160) {
+			speedY = -speedY;
 		}
-	
+		if (ballX <= 0 || ballX >= atariBreakout.frameXSize - 50) {
+
+			speedX = -speedX;
+		}
+bouncer.draw(g);
+
+		ballX = ballX + speedX;
+		ballY = ballY + speedY;
+		
+		
+		if(bouncer.collisionBox.intersects(new Rectangle(ballX,ballY,50,50))) {
+			speedY=-speedY;
+		}
+
+	}
 
 	void drawEndState(Graphics g) {
 		// g.setColor(Color.LIGHT_GRAY);
@@ -176,7 +182,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			bouncer.updateRight();
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			bouncer.updateLeft();
+		}
 	}
 
 	public void keyReleased(KeyEvent e) {

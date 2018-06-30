@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 public class atariBreakout {
+	static int widthOfScreen = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+    static int heightOfScreen = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 	JFrame frame = new JFrame();
-	static final int frameXSize = 800;
-	static final int frameYSize = 600;
+	static final int frameXSize = widthOfScreen;
+	static final int frameYSize = heightOfScreen;
 	GamePanel GamePanel;
 
 	public static void main(String[] args) {
