@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -32,21 +33,28 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font breakoutFont;
 	int timerRun;
 	Color label = Color.BLACK;
-	int ballX = 500;
-	int ballY = 500;
+	int ballX = atariBreakout.frameXSize / 2;
+	int ballY = atariBreakout.frameYSize / 2;
 	int speedX = 5;
 	int speedY = 5;
-	Bouncer bouncer = new Bouncer(300, atariBreakout.frameYSize-260, 200, 10);
+	Blocks block = new Blocks(500, 500, 100, 100);
+	ObjectManger spawner = new ObjectManger(block);
+
+	Random randyOne = new Random();
+
+	Random randyTwo = new Random();
+
+	Bouncer bouncer = new Bouncer(atariBreakout.frameXSize / 2, atariBreakout.frameYSize - 260, 200, 10);
 
 	public GamePanel() {
 
 		titleFont = new Font("Arial", Font.PLAIN, 350);
-		//enterFont = new Font("Arial", Font.BOLD, 24);
-		//startFont = new Font("Arial", Font.PLAIN, 24);
+		enterFont = new Font("Arial", Font.BOLD, 100);
+		startFont = new Font("Arial", Font.PLAIN, 50);
 		breakoutFont = new Font("Impact", Font.BOLD, 150);
-		//diedFont = new Font("Papyrus", Font.ITALIC, 70);
+		// diedFont = new Font("Papyrus", Font.ITALIC, 70);
 		welcomeTo = new Font("Arial", Font.ITALIC, 125);
-		//tryAgainFont = new Font("Typewriter", Font.BOLD, 24);
+		// tryAgainFont = new Font("Typewriter", Font.BOLD, 24);
 
 		try {
 
@@ -60,11 +68,31 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void updateMenuState() {
+		int RandyOne = randyOne.nextInt(2);
+		int RandyTwo = randyTwo.nextInt(2);
+		ballX = atariBreakout.frameXSize / 2;
+		ballY = atariBreakout.frameYSize / 2 - 200;
+		if (RandyOne == 1) {
+			speedX = -5;
 
+		} else {
+			speedX = 5;
+
+		}
+
+		if (RandyTwo == 1) {
+			speedY = -5;
+
+		} else {
+			speedY = 5;
+
+		}
 	}
 
 	void updateGameState() {
-
+		if (ballY >= atariBreakout.frameYSize - 160) {
+			currentState = currentState + 1;
+		}
 	}
 
 	void updateEndState() {
@@ -75,9 +103,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
 
-	    g.setFont(titleFont);
+		g.setFont(titleFont);
 		g.setColor(Color.YELLOW);
-	    g.drawString("Atari", 600, 400);
+		g.drawString("Atari", 600, 400);
 
 		g.setFont(welcomeTo);
 		g.setColor(Color.WHITE);
@@ -96,35 +124,36 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			label = Color.WHITE;
 
 		}
-	//	g.setFont(enterFont);
-		//g.setColor(label);
-		//g.drawString("Press ENTER to start!", 240, 400);
-		//g.setFont(startFont);
-		//g.setColor(Color.YELLOW);
-		//g.drawString("Press SPACE for instructions", 200, 500);
+		g.setFont(enterFont);
+		g.setColor(label);
+		g.drawString("Press ENTER to start!", atariBreakout.frameXSize / 2 - 500, 800);
+		g.setFont(startFont);
+		g.setColor(Color.YELLOW);
+		g.drawString("Press SPACE for instructions", 700, 1000);
 
 	}
 
 	void drawGameState(Graphics g) {
 
+		spawner.addBlackBlock(block);
+
 		g.setColor(Color.BLACK);
 		g.fillOval(ballX, ballY, 50, 50);
 
-		if (ballY <= 0 || ballY >= atariBreakout.frameYSize-160) {
+		if (ballY <= 0 || ballY >= atariBreakout.frameYSize - 160) {
 			speedY = -speedY;
 		}
 		if (ballX <= 0 || ballX >= atariBreakout.frameXSize - 50) {
 
 			speedX = -speedX;
 		}
-bouncer.draw(g);
+		bouncer.draw(g);
 
 		ballX = ballX + speedX;
 		ballY = ballY + speedY;
-		
-		
-		if(bouncer.collisionBox.intersects(new Rectangle(ballX,ballY,50,50))) {
-			speedY=-speedY;
+
+		if (bouncer.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+			speedY = -speedY;
 		}
 
 	}
@@ -166,6 +195,7 @@ bouncer.draw(g);
 			updateMenuState();
 		} else if (currentState == GAME_STATE) {
 			updateGameState();
+			// System.out.println("E");
 
 		} else if (currentState == END_STATE) {
 			updateEndState();
