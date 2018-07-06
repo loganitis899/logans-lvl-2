@@ -37,7 +37,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	int ballY = atariBreakout.frameYSize / 2;
 	int speedX = 5;
 	int speedY = 5;
-	Blocks block = new Blocks(500, 500, 100, 100);
+	int blockX;
+	int blockY;
+	Blocks block = new Blocks(blockX, blockY, 100, 100);
 	ObjectManger spawner = new ObjectManger(block);
 
 	Random randyOne = new Random();
@@ -56,6 +58,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		welcomeTo = new Font("Arial", Font.ITALIC, 125);
 		// tryAgainFont = new Font("Typewriter", Font.BOLD, 24);
 
+		spawner.setUp();
 		try {
 
 			deadImg = ImageIO.read(this.getClass().getResourceAsStream("dead.png"));
@@ -135,8 +138,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	void drawGameState(Graphics g) {
 
-		spawner.addBlackBlock(block);
+		// for (int i = 0; i < 2; i++) {
 
+		// Blocks block = new Blocks(blockX, blockY, 100, 100);
+		// blockX = blockX + 100;
+		// ObjectManger spawner = new ObjectManger(block);
+		// spawner.addBlackBlock(block);
+		// spawner.update();
+		spawner.draw(g);
+
+		// if (blockX > 1000) {
+		// blockX = 0;
+		// blockY = blockY + 100;
+		//
+		// }
+		// }
+		//
 		g.setColor(Color.BLACK);
 		g.fillOval(ballX, ballY, 50, 50);
 
@@ -156,6 +173,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			speedY = -speedY;
 		}
 
+		spawner.checkCollision(ballX, ballY, speedY);
+		// if (spawner.block.collisionBox.intersects(new Rectangle(ballX, ballY, 50,
+		// 50))) {
+		// speedY = -speedY;
+		// }
 	}
 
 	void drawEndState(Graphics g) {

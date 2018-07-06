@@ -1,11 +1,14 @@
 package atari_breakout;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class ObjectManger {
+	int blockX;
+	int blockY;
 	ArrayList<Blocks> blocks = new ArrayList<Blocks>();
-	Blocks block = new Blocks(500, 500, 100, 100);
+	Blocks block = new Blocks(blockX, blockY, 100, 100);
 
 	ObjectManger(Blocks block) {
 		this.block = block;
@@ -15,13 +18,18 @@ public class ObjectManger {
 
 		for (Blocks s : blocks) {
 			s.update();
-
 		}
+
 	}
 
 	void draw(Graphics g) {
 
 		for (Blocks s : blocks) {
+			blockX = blockX + 100;
+			if (blockX > 1000) {
+				blockX = 0;
+				blockY = blockY + 100;
+			}
 			s.draw(g);
 
 		}
@@ -59,9 +67,33 @@ public class ObjectManger {
 
 	public void spawnBricks() {
 		{
-			addBlackBlock(new Blocks(500, 500, 50, 50));
+			addBlackBlock(new Blocks(blockX, blockY, 50, 50));
 
 		}
+	}
+
+	void setUp() {
+		for (int i = 0; i < 18 * 3; i++) {
+
+			Blocks block = new Blocks(blockX, blockY, 100, 100);
+			blockX = blockX + 103;
+
+			addBlackBlock(block);
+
+			if (blockX > atariBreakout.frameXSize - 100) {
+				blockX = 0;
+				blockY = blockY + 103;
+
+			}
+		}
+	}
+
+	void checkCollision(int ballX, int ballY, int speedY) {
+		for (Blocks s : blocks)
+			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+				speedY = -speedY;
+				System.out.println("workerd");
+			}
 	}
 
 }
