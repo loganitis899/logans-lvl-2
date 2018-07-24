@@ -9,8 +9,17 @@ public class Blocks extends GameObject {
 
 	}
 
-	void draw(Graphics g) {
+	void drawBlackBlock(Graphics g) {
 		g.setColor(Color.BLACK);
+		g.fillRect(x, y, width, height);
+	}
+	void drawGreenBlock(Graphics g) {
+		g.setColor(Color.GREEN);
+		g.fillRect(x, y, width, height);
+	}
+	
+	void drawRedBlock(Graphics g) {
+		g.setColor(Color.RED);
 		g.fillRect(x, y, width, height);
 	}
 

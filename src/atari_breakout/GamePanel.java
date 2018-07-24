@@ -137,7 +137,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-
+		spawner.checkCollision(ballX, ballY, speedY);
 		// for (int i = 0; i < 2; i++) {
 
 		// Blocks block = new Blocks(blockX, blockY, 100, 100);
@@ -145,7 +145,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		// ObjectManger spawner = new ObjectManger(block);
 		// spawner.addBlackBlock(block);
 		// spawner.update();
-		spawner.draw(g);
+		spawner.drawBlackBlocks(g);
+		spawner.drawGreenBlocks(g);
+		spawner.drawRedBlocks(g);
 
 		// if (blockX > 1000) {
 		// blockX = 0;
@@ -173,7 +175,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			speedY = -speedY;
 		}
 
-		spawner.checkCollision(ballX, ballY, speedY);
+		
 		// if (spawner.block.collisionBox.intersects(new Rectangle(ballX, ballY, 50,
 		// 50))) {
 		// speedY = -speedY;

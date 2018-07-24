@@ -7,7 +7,9 @@ import java.util.ArrayList;
 public class ObjectManger {
 	int blockX;
 	int blockY;
-	ArrayList<Blocks> blocks = new ArrayList<Blocks>();
+	ArrayList<Blocks> Blackblocks = new ArrayList<Blocks>();
+	ArrayList<Blocks> Greenblocks = new ArrayList<Blocks>();
+	ArrayList<Blocks> Redblocks = new ArrayList<Blocks>();
 	Blocks block = new Blocks(blockX, blockY, 100, 100);
 
 	ObjectManger(Blocks block) {
@@ -16,23 +18,45 @@ public class ObjectManger {
 
 	void update() {
 
-		for (Blocks s : blocks) {
+		for (Blocks s : Blackblocks) {
+			s.update();
+		}
+
+		for (Blocks s : Greenblocks) {
+			s.update();
+		}
+
+		for (Blocks s : Redblocks) {
 			s.update();
 		}
 
 	}
 
-	void draw(Graphics g) {
+	void drawBlackBlocks(Graphics g) {
 
-		for (Blocks s : blocks) {
-			blockX = blockX + 100;
-			if (blockX > 1000) {
-				blockX = 0;
-				blockY = blockY + 100;
-			}
-			s.draw(g);
+		for (Blocks s : Blackblocks) {
+
+			s.drawBlackBlock(g);
 
 		}
+	}
+
+	void drawGreenBlocks(Graphics g) {
+		for (Blocks s : Greenblocks) {
+
+			s.drawGreenBlock(g);
+
+		}
+
+	}
+
+	void drawRedBlocks(Graphics g) {
+		for (Blocks s : Redblocks) {
+
+			s.drawRedBlock(g);
+
+		}
+
 	}
 
 	// Black is strongest... 3 lives left
@@ -40,29 +64,29 @@ public class ObjectManger {
 	// Red is One Shot... 1 life left
 
 	void addBlackBlock(Blocks block) {
-		blocks.add(block);
+		Blackblocks.add(block);
 
 	}
 
 	void addGreenBlock(Blocks block) {
-		blocks.add(block);
+		Greenblocks.add(block);
 	}
 
 	void addRedBlock(Blocks block) {
-		blocks.add(block);
+		Redblocks.add(block);
 	}
 
 	void removeBlackBlock(Blocks block) {
-		blocks.remove(block);
+		Blackblocks.remove(block);
 
 	}
 
 	void removeGreenBlock(Blocks block) {
-		blocks.remove(block);
+		Greenblocks.remove(block);
 	}
 
 	void removeRedBlock(Blocks block) {
-		blocks.remove(block);
+		Redblocks.remove(block);
 	}
 
 	public void spawnBricks() {
@@ -88,12 +112,31 @@ public class ObjectManger {
 		}
 	}
 
-	void checkCollision(int ballX, int ballY, int speedY) {
-		for (Blocks s : blocks)
-			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
-				speedY = -speedY;
-				System.out.println("workerd");
-			}
-	}
+	boolean checkCollision(int ballX, int ballY) {
+		for (int i=0; i<Blackblocks.size(); i++) {
+			if (Blackblocks.get(i).collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 
+				removeBlackBlock(Blackblocks.get(i));
+				addGreenBlock(Blackblocks.get(i));
+				return true;
+			}
+		}
+
+		for (int i=0; i<Greenblocks.size(); i++) {
+			if (Greenblocks.get(i).collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+
+				removeGreenBlock(Greenblocks.get(i));
+				 addRedBlock(Greenblocks.get(i));
+				return true;
+			}
+		}
+		for (int i=0; i<Redblocks.size(); i++) {
+			if (Redblocks.get(i).collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+
+				removeRedBlock(Redblocks.get(i));
+				return true;
+			}
+		}
+		
+	}
 }
