@@ -91,7 +91,7 @@ public class ObjectManger {
 
 	public void spawnBricks() {
 		{
-			addBlackBlock(new Blocks(blockX, blockY, 50, 50));
+			Blackblocks.add(new Blocks(blockX, blockY, 50, 50));
 
 		}
 	}
@@ -112,31 +112,63 @@ public class ObjectManger {
 		}
 	}
 
-	boolean checkCollision(int ballX, int ballY) {
-		for (int i=0; i<Blackblocks.size(); i++) {
-			if (Blackblocks.get(i).collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
-
-				removeBlackBlock(Blackblocks.get(i));
-				addGreenBlock(Blackblocks.get(i));
+	boolean checkBlackCollision(int ballX, int ballY) {
+		
+		for (Blocks s : Blackblocks) {
+			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+				removeBlackBlock(s);
+				addGreenBlock(s);
 				return true;
+
 			}
-		}
 
-		for (int i=0; i<Greenblocks.size(); i++) {
-			if (Greenblocks.get(i).collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
-
-				removeGreenBlock(Greenblocks.get(i));
-				 addRedBlock(Greenblocks.get(i));
+			}
+		return false;
+		
+	
+			}
+	boolean checkGreenCollision(int ballX, int ballY) {
+		
+		for (Blocks s : Greenblocks) {
+			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+				removeGreenBlock(s);
+				addRedBlock(s);
 				return true;
-			}
-		}
-		for (int i=0; i<Redblocks.size(); i++) {
-			if (Redblocks.get(i).collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 
-				removeRedBlock(Redblocks.get(i));
-				return true;
 			}
-		}
+
+			}
+		return false;
+		
+	
+			}
+	boolean checkRedCollision(int ballX, int ballY) {
+		System.out.println(Redblocks.size());
+		for (Blocks s : Redblocks) {
+			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
+				removeRedBlock(s);
+				
+				return true;
+
+			}
+
+			}
+		return false;
+		
+	
+			}
+	
+
+	void reset(int ballX, int ballY) {
+		Blackblocks.removeAll(Blackblocks);
+		Greenblocks.removeAll(Greenblocks);
+		Redblocks.removeAll(Redblocks);
+		blockX=0;
+		blockY=0;
+		ballY=atariBreakout.frameYSize/2;
+		ballX=atariBreakout.frameXSize/2;
+		setUp();
+		
 		
 	}
 }

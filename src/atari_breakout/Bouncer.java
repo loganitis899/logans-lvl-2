@@ -6,7 +6,7 @@ public class Bouncer extends GameObject {
 int speed;
 	public Bouncer(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed=50;
+		speed=10;
 	}
 	
 	void draw(Graphics g) {
@@ -33,5 +33,8 @@ int speed;
 	void update() {
 		super.update();
 		
+	}
+	void reset() {
+		x=atariBreakout.frameXSize/2;
 	}
 }

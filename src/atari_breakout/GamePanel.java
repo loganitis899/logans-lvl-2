@@ -35,10 +35,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Color label = Color.BLACK;
 	int ballX = atariBreakout.frameXSize / 2;
 	int ballY = atariBreakout.frameYSize / 2;
-	int speedX = 5;
-	int speedY = 5;
+	int speedX = 10;
+	int speedY = 10;
 	int blockX;
 	int blockY;
+	boolean moveRight = false;
+	boolean moveLeft = false;
 	Blocks block = new Blocks(blockX, blockY, 100, 100);
 	ObjectManger spawner = new ObjectManger(block);
 
@@ -137,7 +139,26 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-		spawner.checkCollision(ballX, ballY, speedY);
+	
+    
+	
+		if(spawner.checkRedCollision(ballX, ballY)==true){
+			speedY=-speedY;
+		}
+		if(spawner.checkGreenCollision(ballX, ballY)==true){
+			speedY=-speedY;
+		}
+		if(spawner.checkBlackCollision(ballX, ballY)==true){
+			speedY=-speedY;
+		
+		}
+			if(moveRight) {
+				bouncer.updateRight();
+			}
+			if(moveLeft) {
+				bouncer.updateLeft();
+			}
+		
 		// for (int i = 0; i < 2; i++) {
 
 		// Blocks block = new Blocks(blockX, blockY, 100, 100);
@@ -183,6 +204,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawEndState(Graphics g) {
+		spawner.reset(ballX, ballY);
+		bouncer.reset();
 		// g.setColor(Color.LIGHT_GRAY);
 		// g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
 
@@ -237,14 +260,20 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			bouncer.updateRight();
+			moveRight = true;
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			bouncer.updateLeft();
+			moveLeft = true;
 		}
 	}
 
 	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			moveRight = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			moveLeft = false;
+		}
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			currentState += 1;
 			if (currentState == 3) {
