@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Blocks block = new Blocks(blockX, blockY, 100, 100);
 	ObjectManger spawner = new ObjectManger(block);
 
+
 	Random randyOne = new Random();
 
 	Random randyTwo = new Random();
@@ -73,23 +74,22 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void updateMenuState() {
+		
 		int RandyOne = randyOne.nextInt(2);
 		int RandyTwo = randyTwo.nextInt(2);
 		ballX = atariBreakout.frameXSize / 2;
 		ballY = atariBreakout.frameYSize / 2 - 200;
 		if (RandyOne == 1) {
-			speedX = -5;
+			speedX = -speedX;
 
-		} else {
-			speedX = 5;
+		} 
 
-		}
+		
 
 		if (RandyTwo == 1) {
-			speedY = -5;
+			speedY = -speedX;
 
-		} else {
-			speedY = 5;
+		
 
 		}
 	}
@@ -104,7 +104,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	}
 
-	void drawMenuState(Graphics g) {
+	void drawMenuState(Graphics g) { 
+		
+      	
+      		
+		spawner.playSound("smash.mp3");
+      	
+      	
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
 
@@ -139,7 +145,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-	
+		
+	spawner.stopSound("smash.mp3");
     
 	
 		if(spawner.checkRedCollision(ballX, ballY)==true){
@@ -187,6 +194,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 			speedX = -speedX;
 		}
+		bouncer.x=ballX-25;
+		bouncer.update();
 		bouncer.draw(g);
 
 		ballX = ballX + speedX;
@@ -194,7 +203,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		if (bouncer.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 			speedY = -speedY;
+			
 		}
+	
 
 		
 		// if (spawner.block.collisionBox.intersects(new Rectangle(ballX, ballY, 50,

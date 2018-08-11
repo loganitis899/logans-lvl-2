@@ -1,8 +1,11 @@
 package atari_breakout;
 
+import java.applet.AudioClip;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+
+import javax.swing.JApplet;
 
 public class ObjectManger {
 	int blockX;
@@ -118,7 +121,9 @@ public class ObjectManger {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeBlackBlock(s);
 				addGreenBlock(s);
+				playSound("click.wav");
 				return true;
+				
 
 			}
 
@@ -133,6 +138,7 @@ public class ObjectManger {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeGreenBlock(s);
 				addRedBlock(s);
+				playSound("click.wav");
 				return true;
 
 			}
@@ -147,7 +153,7 @@ public class ObjectManger {
 		for (Blocks s : Redblocks) {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeRedBlock(s);
-				
+				playSound("click.wav");
 				return true;
 
 			}
@@ -171,4 +177,16 @@ public class ObjectManger {
 		
 		
 	}
+	
+ void playSound(String fileName) {
+		AudioClip sound = JApplet
+				.newAudioClip(getClass().getResource(fileName));
+		sound.play();
+	}
+ void stopSound(String fileName) {
+	 AudioClip sound = JApplet
+				.newAudioClip(getClass().getResource(fileName));
+		sound.stop();
+ }
+
 }
