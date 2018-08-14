@@ -6,7 +6,7 @@ public class Bouncer extends GameObject {
 int speed;
 	public Bouncer(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed=10;
+		speed=20;
 	}
 	
 	void draw(Graphics g) {

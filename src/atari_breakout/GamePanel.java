@@ -1,5 +1,6 @@
 package atari_breakout;
 
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JApplet;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -34,16 +36,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	int timerRun;
 	Color label = Color.BLACK;
 	int ballX = atariBreakout.frameXSize / 2;
-	int ballY = atariBreakout.frameYSize / 2;
-	int speedX = 10;
-	int speedY = 10;
+	int ballY = atariBreakout.frameYSize - 400;
+	int speedX = 14;
+	int speedY = 14;
 	int blockX;
 	int blockY;
 	boolean moveRight = false;
 	boolean moveLeft = false;
 	Blocks block = new Blocks(blockX, blockY, 100, 100);
+	boolean playMusic = false;
 	ObjectManger spawner = new ObjectManger(block);
-
+	AudioClip smash = JApplet.newAudioClip(getClass().getResource("theme.wav"));
 
 	Random randyOne = new Random();
 
@@ -77,21 +80,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		
 		int RandyOne = randyOne.nextInt(2);
 		int RandyTwo = randyTwo.nextInt(2);
-		ballX = atariBreakout.frameXSize / 2;
-		ballY = atariBreakout.frameYSize / 2 - 200;
-		if (RandyOne == 1) {
-			speedX = -speedX;
-
-		} 
-
+		ballX = atariBreakout.frameXSize / 2+50;
+		ballY = atariBreakout.frameYSize-400;
 		
 
-		if (RandyTwo == 1) {
-			speedY = -speedX;
-
-		
-
-		}
 	}
 
 	void updateGameState() {
@@ -108,7 +100,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		
       	
       		
-		spawner.playSound("smash.mp3");
+		if(playMusic==false) {
+			smash.play();
+			playMusic=true;
+		}
       	
       	
 		g.setColor(Color.BLACK);
@@ -146,7 +141,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	void drawGameState(Graphics g) {
 		
-	spawner.stopSound("smash.mp3");
+	smash.stop();
     
 	
 		if(spawner.checkRedCollision(ballX, ballY)==true){
@@ -201,6 +196,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		ballX = ballX + speedX;
 		ballY = ballY + speedY;
 
+		
+		
 		if (bouncer.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 			speedY = -speedY;
 			

@@ -14,6 +14,7 @@ public class ObjectManger {
 	ArrayList<Blocks> Greenblocks = new ArrayList<Blocks>();
 	ArrayList<Blocks> Redblocks = new ArrayList<Blocks>();
 	Blocks block = new Blocks(blockX, blockY, 100, 100);
+	AudioClip click = JApplet.newAudioClip(getClass().getResource("click.wav"));
 
 	ObjectManger(Blocks block) {
 		this.block = block;
@@ -121,7 +122,7 @@ public class ObjectManger {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeBlackBlock(s);
 				addGreenBlock(s);
-				playSound("click.wav");
+				click.play();
 				return true;
 				
 
@@ -138,7 +139,7 @@ public class ObjectManger {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeGreenBlock(s);
 				addRedBlock(s);
-				playSound("click.wav");
+				click.play();
 				return true;
 
 			}
@@ -153,7 +154,7 @@ public class ObjectManger {
 		for (Blocks s : Redblocks) {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeRedBlock(s);
-				playSound("click.wav");
+				click.play();
 				return true;
 
 			}
@@ -188,5 +189,7 @@ public class ObjectManger {
 				.newAudioClip(getClass().getResource(fileName));
 		sound.stop();
  }
+ 
+
 
 }
