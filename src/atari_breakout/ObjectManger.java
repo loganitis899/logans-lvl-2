@@ -150,7 +150,7 @@ public class ObjectManger {
 	
 			}
 	boolean checkRedCollision(int ballX, int ballY) {
-		System.out.println(Redblocks.size());
+	
 		for (Blocks s : Redblocks) {
 			if (s.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 				removeRedBlock(s);
@@ -190,6 +190,10 @@ public class ObjectManger {
 		sound.stop();
  }
  
+ 
+ int velocity(int ballX, int ballY, Bouncer bouncer) {
+	return Math.abs(ballX-(bouncer.x+100));
+ }
 
 
 }

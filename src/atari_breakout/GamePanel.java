@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	boolean moveLeft = false;
 	Blocks block = new Blocks(blockX, blockY, 100, 100);
 	boolean playMusic = false;
+	int velocity = 0;
 	ObjectManger spawner = new ObjectManger(block);
 	AudioClip smash = JApplet.newAudioClip(getClass().getResource("theme.wav"));
 
@@ -77,12 +78,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void updateMenuState() {
-		
+
 		int RandyOne = randyOne.nextInt(2);
 		int RandyTwo = randyTwo.nextInt(2);
-		ballX = atariBreakout.frameXSize / 2+50;
-		ballY = atariBreakout.frameYSize-400;
-		
+		ballX = atariBreakout.frameXSize / 2 + 50;
+		ballY = atariBreakout.frameYSize - 400;
 
 	}
 
@@ -96,16 +96,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 	}
 
-	void drawMenuState(Graphics g) { 
-		
-      	
-      		
-		if(playMusic==false) {
+	void drawMenuState(Graphics g) {
+
+		if (playMusic == false) {
 			smash.play();
-			playMusic=true;
+			playMusic = true;
 		}
-      	
-      	
+		velocity=0;
+		speedY=14;
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
 
@@ -140,27 +139,27 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 
 	void drawGameState(Graphics g) {
-		
-	smash.stop();
-    
-	
-		if(spawner.checkRedCollision(ballX, ballY)==true){
-			speedY=-speedY;
+
+		smash.stop();
+		playMusic = false;
+
+		if (spawner.checkRedCollision(ballX, ballY) == true) {
+			speedY = -speedY;
 		}
-		if(spawner.checkGreenCollision(ballX, ballY)==true){
-			speedY=-speedY;
+		if (spawner.checkGreenCollision(ballX, ballY) == true) {
+			speedY = -speedY;
 		}
-		if(spawner.checkBlackCollision(ballX, ballY)==true){
-			speedY=-speedY;
-		
+		if (spawner.checkBlackCollision(ballX, ballY) == true) {
+			speedY = -speedY;
+
 		}
-			if(moveRight) {
-				bouncer.updateRight();
-			}
-			if(moveLeft) {
-				bouncer.updateLeft();
-			}
-		
+		if (moveRight) {
+			bouncer.updateRight();
+		}
+		if (moveLeft) {
+			bouncer.updateLeft();
+		}
+
 		// for (int i = 0; i < 2; i++) {
 
 		// Blocks block = new Blocks(blockX, blockY, 100, 100);
@@ -189,27 +188,34 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 			speedX = -speedX;
 		}
-		bouncer.x=ballX-25;
+		//bouncer.x = ballX - 25;
 		bouncer.update();
 		bouncer.draw(g);
 
 		ballX = ballX + speedX;
 		ballY = ballY + speedY;
 
-		
-		
 		if (bouncer.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
-			speedY = -speedY;
 			
+			if (spawner.velocity(ballX, ballY, bouncer) <50) {
+				speedY = speedY + 10;
+				
+				System.out.println(speedY);
+			} else if (spawner.velocity(ballX, ballY, bouncer) > 50) {
+				
+				System.out.println(speedY);
+				speedY = speedY - 10;
+			}
+			speedY = -speedY;
 		}
-	
-
 		
-		// if (spawner.block.collisionBox.intersects(new Rectangle(ballX, ballY, 50,
-		// 50))) {
-		// speedY = -speedY;
-		// }
+
 	}
+
+	// if (spawner.block.collisionBox.intersects(new Rectangle(ballX, ballY, 50,
+	// 50))) {
+	// speedY = -speedY;
+	// }
 
 	void drawEndState(Graphics g) {
 		spawner.reset(ballX, ballY);
