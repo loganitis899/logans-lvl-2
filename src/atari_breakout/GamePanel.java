@@ -102,8 +102,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			smash.play();
 			playMusic = true;
 		}
-		velocity=0;
-		speedY=14;
+		velocity = 0;
+		speedY = 14;
 
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, atariBreakout.frameXSize, atariBreakout.frameYSize);
@@ -143,13 +143,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		smash.stop();
 		playMusic = false;
 
-		if (spawner.checkRedCollision(ballX, ballY) == true) {
+		if (spawner.checkRedCollision(ballX+speedX, ballY+speedY) == true) {
 			speedY = -speedY;
 		}
-		if (spawner.checkGreenCollision(ballX, ballY) == true) {
+		if (spawner.checkGreenCollision(ballX+speedX, ballY+speedY) == true) {
 			speedY = -speedY;
 		}
-		if (spawner.checkBlackCollision(ballX, ballY) == true) {
+		if (spawner.checkBlackCollision(ballX+speedX, ballY+speedY) == true) {
 			speedY = -speedY;
 
 		}
@@ -182,13 +182,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.fillOval(ballX, ballY, 50, 50);
 
 		if (ballY <= 0 || ballY >= atariBreakout.frameYSize - 160) {
-			speedY = -speedY;
+			speedY=-speedY;
 		}
 		if (ballX <= 0 || ballX >= atariBreakout.frameXSize - 50) {
 
 			speedX = -speedX;
 		}
-		//bouncer.x = ballX - 25;
+		//bouncer.x = ballX-100;
 		bouncer.update();
 		bouncer.draw(g);
 
@@ -197,14 +197,19 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 		if (bouncer.collisionBox.intersects(new Rectangle(ballX, ballY, 50, 50))) {
 			
-			if (spawner.velocity(ballX, ballY, bouncer) <50) {
-				speedY = speedY + 10;
+		if (spawner.velocity(ballX, ballY, bouncer) <50) {
+				
+				speedY = speedY + 2;
+				speedY=Math.min(speedY, 100);
+				
 				
 				System.out.println(speedY);
 			} else if (spawner.velocity(ballX, ballY, bouncer) > 50) {
 				
 				System.out.println(speedY);
-				speedY = speedY - 10;
+				
+				speedY = speedY - 2;
+				speedY=Math.max(speedY, 3);
 			}
 			speedY = -speedY;
 		}
@@ -275,9 +280,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			moveRight = true;
+			bouncer.collisionBox.setBounds(bouncer.x+20, bouncer.y, 200, 10);
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			moveLeft = true;
+			bouncer.collisionBox.setBounds(bouncer.x-20, bouncer.y, 200, 10);
+			
 		}
 	}
 

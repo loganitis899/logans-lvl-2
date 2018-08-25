@@ -1,3 +1,8 @@
+/alien.png
+/atari_breakout/
+/bullet.png
+/rocket.png
+/space.png
 /Alien.class
 /GameObject.class
 /GamePanel.class
@@ -6,8 +11,3 @@
 /ObjectManager.class
 /Projectile.class
 /Rocketship.class
-/alien.png
-/atari_breakout/
-/bullet.png
-/rocket.png
-/space.png
