@@ -188,7 +188,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 
 			speedX = -speedX;
 		}
-		//bouncer.x = ballX-100;
+		bouncer.x = ballX-100;
 		bouncer.update();
 		bouncer.draw(g);
 
