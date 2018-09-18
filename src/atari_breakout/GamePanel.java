@@ -37,8 +37,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Color label = Color.BLACK;
 	int ballX = atariBreakout.frameXSize / 2;
 	int ballY = atariBreakout.frameYSize - 400;
-	int speedX = 14;
-	int speedY = 14;
+	int speedX = 40;
+	int speedY = 40;
 	int blockX;
 	int blockY;
 	boolean moveRight = false;
@@ -222,7 +222,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	// speedY = -speedY;
 	// }
 
-	void drawEndState(Graphics g) {
+	 void drawEndState(Graphics g) {
 		spawner.reset(ballX, ballY);
 		bouncer.reset();
 		// g.setColor(Color.LIGHT_GRAY);
